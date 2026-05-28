@@ -244,11 +244,12 @@ Below is a real trace for the query *"Find all data quality issues"*:
 
 ## 📸 Screenshots
 
-> *Add screenshots or a demo GIF here after running the app.*
+> ![Graph](Screenshots/Bar_Chart.png)![HomePage](Screenshots/Home_page.png)![SampleData](Screenshots/Sample_data.png)
+
 
 | Landing Page | Chat Interface | Reasoning Chain |
 |---|---|---|
-| *(screenshot)* | *(screenshot)* | *(screenshot)* |
+| [HomePage](Screenshots/Home_page.png) | *(screenshot)* | Screenshots/Outliers_Code.png |
 
 ---
 

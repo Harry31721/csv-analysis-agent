@@ -245,45 +245,50 @@ def render_reasoning_chain(tool_steps: list[dict]) -> None:
     if not tool_steps:
         return
 
-    # Build step nodes HTML
+    # Build every node as a single-line string — multi-line f-strings add
+    # leading spaces which Markdown misreads as code blocks.
     nodes_html = ""
     for i, step in enumerate(tool_steps):
         tname = step["tool"]
         icon, color, label = _TOOL_META.get(tname, ("🔧", "#818cf8", tname))
         is_last = (i == len(tool_steps) - 1)
-        connector = (
-            ""
-            if is_last
-            else f'<div style="width:2px;height:14px;background:linear-gradient({color}66,{color}11);'
-                 f'margin:2px 0 2px 11px;border-radius:2px;"></div>'
-        )
-        nodes_html += f"""
-        <div style="display:flex;align-items:flex-start;gap:10px;">
-            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
-                <div style="width:24px;height:24px;border-radius:50%;
-                            background:{color}18;border:1.5px solid {color};
-                            display:flex;align-items:center;justify-content:center;
-                            font-size:0.7em;">{icon}</div>
-            </div>
-            <div style="padding-top:3px;">
-                <span style="color:{color};font-size:0.82em;font-weight:600;">{label}</span>
-                <span style="color:#334155;font-size:0.75em;margin-left:6px;
-                             font-family:monospace;">{tname}</span>
-            </div>
-        </div>
-        {connector}
-        """
 
-    st.markdown(f"""
-    <div style="background:#080d1a;border:1px solid rgba(99,102,241,0.18);
-                border-radius:12px;padding:14px 16px;margin:8px 0 12px 0;">
-        <div style="font-size:0.68em;font-weight:700;color:#334155;
-                    text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px;">
-            ⚙ &nbsp;Agent Reasoning Chain
-        </div>
-        {nodes_html}
-    </div>
-    """, unsafe_allow_html=True)
+        connector = "" if is_last else (
+            f'<div style="width:2px;height:14px;'
+            f'background:linear-gradient({color}66,{color}11);'
+            f'margin:2px 0 2px 11px;border-radius:2px;"></div>'
+        )
+
+        dot = (
+            f'<div style="width:24px;height:24px;border-radius:50%;'
+            f'background:{color}18;border:1.5px solid {color};'
+            f'display:flex;align-items:center;justify-content:center;'
+            f'font-size:0.7em;">{icon}</div>'
+        )
+        text = (
+            f'<span style="color:{color};font-size:0.82em;font-weight:600;">{label}</span>'
+            f'<span style="color:#334155;font-size:0.75em;margin-left:6px;'
+            f'font-family:monospace;">{tname}</span>'
+        )
+        row = (
+            f'<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:2px;">'
+            f'<div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">{dot}</div>'
+            f'<div style="padding-top:3px;">{text}</div>'
+            f'</div>'
+        )
+        nodes_html += row + connector
+
+    header = (
+        '<div style="font-size:0.68em;font-weight:700;color:#334155;'
+        'text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px;">'
+        '&#9881; &nbsp;Agent Reasoning Chain</div>'
+    )
+    wrapper = (
+        f'<div style="background:#080d1a;border:1px solid rgba(99,102,241,0.18);'
+        f'border-radius:12px;padding:14px 16px;margin:8px 0 12px 0;">'
+        f'{header}{nodes_html}</div>'
+    )
+    st.markdown(wrapper, unsafe_allow_html=True)
 
     # Expandable details per step
     for step in tool_steps:
