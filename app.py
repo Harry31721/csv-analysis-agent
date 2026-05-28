@@ -7,7 +7,15 @@ import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv()  # works locally via .env
+
+# Streamlit Cloud: copy secrets into os.environ so langchain-groq can find them
+try:
+    for _k, _v in st.secrets.items():
+        os.environ.setdefault(str(_k), str(_v))
+except Exception:
+    pass
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from agent.graph import build_graph
