@@ -249,7 +249,7 @@ Below is a real trace for the query *"Find all data quality issues"*:
 
 | Landing Page | Chat Interface | Reasoning Chain |
 |---|---|---|
-| [HomePage](Screenshots/Home_page.png) | *(screenshot)* | Screenshots/Outliers_Code.png |
+| [HomePage](Screenshots/Home_page.png) | [Graph](Screenshots/Bar_Chart.png) | [ReasoningChain](Screenshots/Outliers_Code.png) |
 
 ---
 
